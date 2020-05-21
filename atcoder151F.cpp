@@ -21,6 +21,7 @@
 #include <unordered_set>
 using namespace std;
 
+
 struct modint{
 	using i64 = int_fast64_t;
 	i64 a;
@@ -158,15 +159,53 @@ template<int n> struct COMB{
 	}
 };
 
-constexpr COMB<200010> comb;
+const int maxp= 55;
+struct Point{
+	int x,y;
+
+}p[maxp],stk[maxp],base;
+
+double getdis(Point p1,Point p2){
+	return sqrt((p1.x-p2.x)*(p1.x-p2.x)*1.0+ (p1.y-p2.y)*(p1.y-p2.y));
+}
+int getCross(Point p1, Point p2, Point p3){
+
+	return (p2.x-p1.x)*(p3.y-p1.y)-(p3.x-p1.x)*(p2.y-p1.y);
+}
+
+bool cmp(Point p1,Point p2){
+
+	if(getCross(base,p1,p2)==0){
+
+		return getdis(base,p1)< getdis(base,p2);
+	}
+	if(getCross(base,p1,p2)>0){
+
+		return true;
+	}
+}
+
+void getBase(){
+
+}
+bool judge(double a, double b, double c){
+	return a*a+b*b <c*c;
+}
+double calR(Point p0,Point p1, Point p2){
+	double p0p1= getdis(p0,p1);
+	double p0p2= getdis(p0,p2);
+	double p1p2= getdis(p1,p2);
+
+	if(judge(p0p1,p0p2,p1p2)|| judge(p0p1,p1p2,p0p2)||judge(p0p2,p1p2,p0p1)){
+		return max(p0p1,max(p0p2,p1p2));
+	}
+	double S=fabs(getCross(p0,p1,p2))/2.0;
+	return p0p1*p0p2*p1p2/4.0/S;
+}
+
+you
 
 int main(){
-
-	int N,K;
-	cin>>N>>K;
-	vector<int> A(N,0);
-	for(int i=0;i<N;i++)cin>>A[i];
-
 	sort(A.begin(),A.end());
 	
 	modint ans{};
